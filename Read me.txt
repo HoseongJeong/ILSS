@@ -1,0 +1,30 @@
+★★★It file contains source codes of ILSS (Iterated local search using semantic cluster operator).★★★
+
+※ ILSS was written based on DEAP's code.
+(DEAP: https://deap.readthedocs.io/en/master/)
+
+※ A related paper on ILSS is
+https://doi.org/10.1016/j.advengsoft.2022.103174
+
+py Files
+- ILSS_main: It is a main file of ILSS. When the "Iteration", "X_train", and "X_test" files are ready, run "ILSS_main".
+- Base: It contains class and function which create a primitive set and tree.
+- Constant_optimization: The functions for constant optimization are included here.
+- Evaluation: The functions for evaluation are included here.
+- Initialization: The functions for initialization are included here.
+- Library_manager: The functions for generating semantic cluster library are included here.
+- Module_wide_function: You can add user-function here.
+- Module_wide_variable: You can change parameter values here.
+- Operator: The semantic cluster operator and related functions are included here.
+- Selection: The functions for selection are included here.
+
+excel Files:
+Iteration: It contains values of parameters. You should specify the parameter values at first to run ILSS.
+1_train: This is an example of training data. You should name the training data as an "X_train", where X should be the same as the value in "The_name_of_data_set".
+1_test: This is an example of testing data. You should name the testing data as an "X_test", where X should be the same as the value in "The_name_of_data_set".
+
+How to run ILSS?
+
+1. Specify the values of parameters in the "Iteration" file.
+2. Create "X_train", and "X_test" file.
+3. Run "ILSS_main".
