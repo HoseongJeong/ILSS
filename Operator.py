@@ -290,7 +290,7 @@ def internal_search_semantic_detail(individual,Node_position,Cluster):
     
     #Find Semantic neighbor tree
     Semantic_neighbor_tree_list_index=list(MWV.Semantic_dataframe_list[0][MWV.Semantic_dataframe_list[0]["Clusters"]==Cluster]["Combination"])
-    Semantic_neighbor_tree_list=[MWV.Total_tree_list[0][i] for i in Semantic_neighbor_tree_list_index]
+    Semantic_neighbor_tree_list=[MWV.Total_tree_list[0][int(i)] for i in Semantic_neighbor_tree_list_index]
     
 
     #Create tree
