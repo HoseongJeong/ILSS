@@ -200,38 +200,35 @@ def update_list(population,Height_limit,Noise_data,decimal=3):
                         #Check nan
                         if  numpy.isnan(Temp_output).any() == False and numpy.isinf(Temp_output).any() == False:
                             # Check duplicated tree
-                            Duplicated_dataframe=None
-                            Duplicated_dataframe=MWV.Semantic_dataframe_list[0][Columm_data_number].isin(Temp_output).all(1)
+                            Duplicated_dataframe=copy.deepcopy(MWV.Semantic_dataframe_list[0][Columm_data_number])
+                            Duplicated_dataframe.loc[len(Duplicated_dataframe),:]=Temp_output
+                            Duplicated_dataframe=Duplicated_dataframe.duplicated(keep='last')
                             if sum(list(Duplicated_dataframe))>0:
                                 Target_index=int(MWV.Semantic_dataframe_list[0].loc[Duplicated_dataframe,"Combination"].values[0])
                                 Original_tree=MWV.Total_tree_list[0][Target_index]
+                                #Substitute small tree
+                                if len(Temp_tree)<len(Original_tree):
+                                    Temp_semantic_data=[str(Temp_tree),Target_index,"None"]
+                                    Temp_semantic_data.extend(Temp_output)
+                                    MWV.Total_tree_list[0][Target_index]=Temp_tree
+                                    MWV.Semantic_dataframe_list[0].loc[Target_index,:]=Temp_semantic_data
+                                    print(str(Target_index)+"th tree \n"+str(Original_tree) + "\n was changed to \n"+str(Temp_tree))
+                                    
+                                    Change_record=Change_record+1
                             else:
                                 Target_index=None
-                                
-                            #Insert new tree
-                            if sum(list(Duplicated_dataframe))==0:
-                            
+                                #Insert new tree
                                 #Append data
                                 Current_index_of_total_tree=Initial_size_of_semantic_data_frame+Addition_count
         
                                 MWV.Total_tree_list[0].append(Temp_tree)
-                                Temp_semantic_data=[str(Temp_tree),Initial_size_of_semantic_data_frame+Addition_count,"None"]
+                                Temp_semantic_data=[str(Temp_tree),Current_index_of_total_tree,"None"]
                                 Temp_semantic_data.extend(Temp_output)
                                 MWV.Semantic_dataframe_list[0].loc[Current_index_of_total_tree,:]=Temp_semantic_data
                                 
                                 print (str(Temp_tree) + "was added to library")
                                 
                                 Addition_count=Addition_count+1
-                                Change_record=Change_record+1
-                            
-                            #Substitute small tree
-                            elif sum(list(Duplicated_dataframe))>0 and len(Temp_tree)<len(Original_tree):
-                                Temp_semantic_data=[str(Temp_tree),Target_index,"None"]
-                                Temp_semantic_data.extend(Temp_output)
-                                MWV.Total_tree_list[0][Target_index]=Temp_tree
-                                MWV.Semantic_dataframe_list[0].loc[Target_index,:]=Temp_semantic_data
-                                print(str(Target_index)+"th tree \n"+str(Original_tree) + "\n was changed to \n"+str(Temp_tree))
-                                
                                 Change_record=Change_record+1
 
     #If more than one of tree was inserted, perform clustering
